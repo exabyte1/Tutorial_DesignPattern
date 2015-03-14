@@ -1,0 +1,67 @@
+---------------------
+CHAPTER 01 : COMPOSITION DESIGN PATTERN
+---------------------
+Disini kita belajar yang namanya komposisi, menggabungkan fungsi interface dan extends (polymorphism)
+
+tersebut sebuah superclass bernama Duck yang memiliki behavior selayaknya duck.
+subclass dari Duck (mallard duck) adalah duck yang memiliki spesifik behavior. 
+seperti sepeda (superclass) ia mempunyai kecepatan, kekuatan, pengereman. Namun seberapa besar parameter tersebut
+di jabarkan pada subclass (sepeda gunung, sepeda ontel dll).
+
+dalam hal ini, rangka pikirnya sebenarnya sudah cukup menggunakan superclass dan subclass saja (extends).
+subclass hanya menjabarkan hal hal spesifik untuk masing masing jenis dari superclass.
+
+namun, akan ditemui kendala bila, dikemudian hari perlu adanya penambahan "ability", semisal duck yang bisa terbang
+dan bunyi duck yang berbeda beda. OK, kita bisa melakukan override ke method dari superclass (ability yg sama).
+namun apakah akan selalu melakukan override ke setiap subclass baru ? Jika misal ada 1 superclass yang ditambahkan
+satu "ability" terbang, dan ada 20 subclass dibawahnya yg mewarisi ability terbang. Maka akan ada 20 class yang
+harus di override agar memiliki kemampuan terbang yg berbeda beda. Jika kemampuan terbangnya sama, bisa di declare
+pada superclass nya. solved, jika tidak ?
+
+disinilah kegunaan interface
+
+interface bisa di implementasikan ke banyak class (semacam subclass tapi tidak extends), pada superclass cukup 
+di declare method / ability pada class interfacenya, misal ability terbang (perform terbang). Dan pada class 
+implementasinya, bisa di buat varian ability terbang (rendah, sedang, menukik dll). Inilah yang kedepan akan
+bertambah sesuai kebutuhan dan tidak ada urusan dengan superclass ataupun subclass dari extends superclass. 
+implementasi dari interface terbang ini, hanya diaplikasikan ke class baru (duck) yang memang me-require kemampuan
+terbang baru. Nanti pada class duck baru ini, di definisikan interface terbang sebagai new class kemampuanBaru.
+jadi yang kena efek hanya class baru tersebut. tidak perlu lagi melakukan override ke semua subclass. 
+
+---------------------
+gambaran
+---------------------
+
+saat ini ada superclass DUCK, dan subclassnya DUCK MALLARD.
+pada superclass ada kemampuan yg sama untuk semua varian DUCK = display dan swim.
+display dan swim ini bisa di override untuk setiap subclassnya (DUCK MALLARD)
+atau dibiarkan / sama rata mengacu ke superclassnya.
+
+Kemudian ada interface FlyBehavior dan QuackBehavior.
+prinsipnya, kemampuan untuk Fly dan Quack (yang tentu memiliki varian).
+jika menggunakan konsep basic (superclass - subclass), tentu semua subclass harus melakukan override agar memiliki
+kemampuan Fly yang berbeda beda. Karena kemampuan Fly di declare pada superclass. 
+
+FlyBehavior dan QuackBehavior memiliki implementasi class yang banyak dan berbeda beda.
+sesuai kemampuan yang di inginkan. Jadi, pada superclass cukup di declare interface FlyBehavior dan method yang
+akan digunakan pada class interface itu. Perihal syntax / proses / kemampuannya tergantung pada class implementasinya
+
+pada subclass DUCK MALLARD, di define kan, implementasi dari interface FlyBehavior. Disini, varian Fly di declare.
+sehingga setiap ada subclass dari DUCK yang baru, cukup melakukan declare implementasi dari kemampuan Fly interfacenya.
+tidak perlu melakukan override dari method superclass (FLY).
+
+demikian pula, jika ada kemampuan Fly yg baru, cukup membuat implementasi dari interface Fly dan pada subclass DUCK yang baru
+declare new implementasi tersebut.
+
+demikian pula, jika ada ability baru (PUNCH misalnya) maka cukup membuat interface dan implementasinya. kemudian declare
+method di superclass nya. Sehingga semua subclass yang sudah ada tidak perlu melakukan override. Namun subclass yang 
+tidak melakukan declare di classnya, jika perform ability PUNCH tersebut akan NULL.
+
+
+---------------------
+NOTES DESIGN PATTERN PRINCIPLES
+---------------------
+
+01. pisahkan method yang sama dan method yang berbeda (vary)
+02. method yg sama di declare pada superclass
+03. method yg berbeda di declare pada subclass menggunakan interface dan implementasinya.
